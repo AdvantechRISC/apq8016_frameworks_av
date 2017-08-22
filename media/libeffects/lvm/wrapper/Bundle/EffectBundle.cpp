@@ -2357,10 +2357,22 @@ int Equalizer_getParameter(EffectContext     *pContext,
 
     case EQ_PARAM_BAND_LEVEL:
         param2 = *pParamTemp;
-        if (param2 >= FIVEBAND_NUMBANDS) {
+      //cts  if (param2 >= FIVEBAND_NUMBANDS) {
+      //cts      status = -EINVAL;
+      //cts      break;
+      //cts  }
+
+        //cts begin
+        if (param2 < 0 || param2 >= FIVEBAND_NUMBANDS) {
             status = -EINVAL;
+            if (param2 < 0) {
+                android_errorWriteLog(0x534e4554, "32438598");
+                ALOGW("\tERROR Equalizer_getParameter() EQ_PARAM_BAND_LEVEL band %d", param2);
+            }
             break;
         }
+        //cts end
+
         *(int16_t *)pValue = (int16_t)EqualizerGetBandLevel(pContext, param2);
         //ALOGV("\tEqualizer_getParameter() EQ_PARAM_BAND_LEVEL band %d, level %d",
         //      param2, *(int32_t *)pValue);
@@ -2368,10 +2380,20 @@ int Equalizer_getParameter(EffectContext     *pContext,
 
     case EQ_PARAM_CENTER_FREQ:
         param2 = *pParamTemp;
-        if (param2 >= FIVEBAND_NUMBANDS) {
+       //cts if (param2 >= FIVEBAND_NUMBANDS) {
+       //cts     status = -EINVAL;
+       //cts     break;
+       //cts }
+       //cts begin
+        if (param2 < 0 || param2 >= FIVEBAND_NUMBANDS) {
             status = -EINVAL;
+            if (param2 < 0) {
+                android_errorWriteLog(0x534e4554, "32436341");
+                ALOGW("\tERROR Equalizer_getParameter() EQ_PARAM_CENTER_FREQ band %d", param2);
+            }
             break;
         }
+        //cts end
         *(int32_t *)pValue = EqualizerGetCentreFrequency(pContext, param2);
         //ALOGV("\tEqualizer_getParameter() EQ_PARAM_CENTER_FREQ band %d, frequency %d",
         //      param2, *(int32_t *)pValue);
@@ -2379,10 +2401,20 @@ int Equalizer_getParameter(EffectContext     *pContext,
 
     case EQ_PARAM_BAND_FREQ_RANGE:
         param2 = *pParamTemp;
-        if (param2 >= FIVEBAND_NUMBANDS) {
+       //cts  if (param2 >= FIVEBAND_NUMBANDS) {
+       //cts      status = -EINVAL;
+       //cts      break;
+       //cts  }
+        //cts begin
+        if (param2 < 0 || param2 >= FIVEBAND_NUMBANDS) {
             status = -EINVAL;
+            if (param2 < 0) {
+                android_errorWriteLog(0x534e4554, "32247948");
+                ALOGW("\tERROR Equalizer_getParameter() EQ_PARAM_BAND_FREQ_RANGE band %d", param2);
+            }
             break;
         }
+        //cts end
         EqualizerGetBandFreqRange(pContext, param2, (uint32_t *)pValue, ((uint32_t *)pValue + 1));
         //ALOGV("\tEqualizer_getParameter() EQ_PARAM_BAND_FREQ_RANGE band %d, min %d, max %d",
         //      param2, *(int32_t *)pValue, *((int32_t *)pValue + 1));
